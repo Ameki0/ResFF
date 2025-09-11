@@ -1,0 +1,2 @@
+import resff.graphs.utils.read_heterogeneous_graph
+import resff.graphs.utils.read_homogeneous_graph
