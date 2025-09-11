@@ -216,57 +216,65 @@ def run(kwargs):
     logging.debug(f"# Try loading to load model from {output_prefix}")
 
     # Check if checkpoint file exists
-
-        checkpoint_path ="~/ResFF/train/net354.pt"
-        net.load_state_dict(torch.load(checkpoint_path, map_location=torch.device(cuda_device)))
+    checkpoints = glob.glob(f"{output_prefix}/*.th")
+    if checkpoints:
     
-        # Validation
-        logging.debug('# Validation')
-        net.eval()
-        vl_energy_loss, vl_force_loss = [], []
-   
-        import time
-        start_time = time.time()
+        n = [int(c.split('net')[1].split('.')[0]) for c in checkpoints]
+        n.sort()
+        last_step = n[-1]
+        last_checkpoint = os.path.join(output_prefix, f"net{last_step}.th")
+        checkpoint = torch.load(last_checkpoint, map_location="cpu")
+        net.load_state_dict(checkpoint)
+        step = last_step + 1
+        logging.debug(f"# Found checkpoint file ({last_checkpoint}).")
+
+    # Validation
+    logging.debug('# Validation')
+    net.eval()
+    vl_energy_loss, vl_force_loss = [], []
+
+    import time
+    start_time = time.time()
+    
+    for g in tqdm(ds_vl):
+
+        u_list, u_ref_list=[], []
+        g = g.heterograph.to(cuda_device)
+        g.nodes['g'].data['u_ref'] *= HARTEE_TO_KCALPERMOL
         
-        for g in tqdm(ds_vl):
-
-            u_list, u_ref_list=[], []
-            g = g.heterograph.to(cuda_device)
-            g.nodes['g'].data['u_ref'] *= HARTEE_TO_KCALPERMOL
-           
-            try:
-                g.nodes['n1'].data['u_ref_prime'] *= HARTEE_TO_KCALPERMOL / BOHR_TO_A
-            except:
-                #logging.debug('Force label is not provided in dataset')
-                pass
-            g.nodes['g'].data['u_ref_relative'] = g.nodes['g'].data['u_ref'] - g.nodes['g'].data['u_ref'].min(dim=-1, keepdims=True)[0]
-            g.nodes['g'].data['u_ref_relative'] = g.nodes['g'].data['u_ref_relative'].float()
-            
-            g.nodes['n1'].data['xyz'] *= BOHR_TO_A
-            
-            g.nodes["n1"].data["xyz"].requires_grad = True
-            _, e_loss, f_loss = net(g)
-            vl_energy_loss.append(e_loss.pow(0.5).item())
-            vl_force_loss.append(f_loss.pow(0.5).item())
-
-            u_ref_list.append(g.nodes['g'].data['u_ref_relative'])
-            u_list.append((g.nodes['g'].data['u_total'] - g.nodes['g'].data['u_total'].min(dim=-1, keepdims=True)[0]))
-            u_list = torch.cat(u_list, dim=1).view(-1)
-            u_ref_list = torch.cat(u_ref_list, dim=1).view(-1)
-            
-            data = pd.DataFrame({
-                        'ResFF Energy': u_list.cpu().detach().numpy(),
-                        'Reference Energy': u_ref_list.cpu().detach().numpy(),
-                        })
+        try:
+            g.nodes['n1'].data['u_ref_prime'] *= HARTEE_TO_KCALPERMOL / BOHR_TO_A
+        except:
+            #logging.debug('Force label is not provided in dataset')
+            pass
+        g.nodes['g'].data['u_ref_relative'] = g.nodes['g'].data['u_ref'] - g.nodes['g'].data['u_ref'].min(dim=-1, keepdims=True)[0]
+        g.nodes['g'].data['u_ref_relative'] = g.nodes['g'].data['u_ref_relative'].float()
         
-            data.to_csv(f'{output_prefix}/results.csv', mode='a', index=False, header=not os.path.exists(f'{output_prefix}/results.csv') )
+        g.nodes['n1'].data['xyz'] *= BOHR_TO_A
+        
+        g.nodes["n1"].data["xyz"].requires_grad = True
+        _, e_loss, f_loss = net(g)
+        vl_energy_loss.append(e_loss.pow(0.5).item())
+        vl_force_loss.append(f_loss.pow(0.5).item())
 
-        vl_energy_loss = np.mean(vl_energy_loss)
-        vl_force_loss = np.mean(vl_force_loss)
-        logging.debug(f"[Val Energy Loss: {vl_energy_loss:.4f}, Val Force Loss: {vl_force_loss:.4f}]")
+        u_ref_list.append(g.nodes['g'].data['u_ref_relative'])
+        u_list.append((g.nodes['g'].data['u_total'] - g.nodes['g'].data['u_total'].min(dim=-1, keepdims=True)[0]))
+        u_list = torch.cat(u_list, dim=1).view(-1)
+        u_ref_list = torch.cat(u_ref_list, dim=1).view(-1)
+        
+        data = pd.DataFrame({
+                    'ResFF Energy': u_list.cpu().detach().numpy(),
+                    'Reference Energy': u_ref_list.cpu().detach().numpy(),
+                    })
+    
+        data.to_csv(f'{output_prefix}/results.csv', mode='a', index=False, header=not os.path.exists(f'{output_prefix}/results.csv') )
 
-        end_time = time.time() - start_time
-        logging.debug(f'Duration: {end_time}')
+    vl_energy_loss = np.mean(vl_energy_loss)
+    vl_force_loss = np.mean(vl_force_loss)
+    logging.debug(f"[Val Energy Loss: {vl_energy_loss:.4f}, Val Force Loss: {vl_force_loss:.4f}]")
+
+    end_time = time.time() - start_time
+    logging.debug(f'Duration: {end_time}')
 
 
 @click.command()
