@@ -4,7 +4,7 @@ Implementation of ResFF, by Xinyu Jiang.
 
 This repository contains codes, instructions and model weights of ResFF.
 
-![alt text](image.png)
+![image.png](https://github.com/Ameki0/ResFF/blob/main/images/Model.png)
 
 # Installation
 
@@ -29,13 +29,15 @@ Set up environment
 
 # Model weight and code
 
-1. The model weight is available in ~/ResFF/weight. Load it using:
+1. The model weight is available in [~/ResFF/weight](https://github.com/Ameki0/ResFF/blob/main/weight). Load it using:
 
+```
     net.load_state_dict(torch.load(f'{checkpoint_path}', map_location=torch.device(cuda_device)))
+```
 
-Adjust checkpoint_path and GPU device settings as needed.
+   Adjust checkpoint_path and GPU device settings as needed.
 
-2. The ./resff directory provides the implementation of ResFF.
+3. The [~/ResFF/resff](https://github.com/Ameki0/ResFF/blob/main/resff) directory provides the implementation of ResFF.
 
 # Train ResFF
 
@@ -45,7 +47,7 @@ Adjust checkpoint_path and GPU device settings as needed.
 
     bash  ~/ResFF/val.sh
 
-A dataset demo for evaluation is provided in ~/ResFF/data.
+A dataset demo for evaluation is provided in [~/ResFF/data](https://github.com/Ameki0/ResFF/blob/main/data).
 
 # License
 
