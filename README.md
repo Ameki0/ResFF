@@ -32,12 +32,12 @@ Set up environment
 1. The model weight is available in [~/ResFF/weight](https://github.com/Ameki0/ResFF/blob/main/weight). Load it using:
 
 ```
-    net.load_state_dict(torch.load(f'{checkpoint_path}', map_location=torch.device(cuda_device)))
+net.load_state_dict(torch.load(f'{checkpoint_path}', map_location=torch.device(cuda_device)))
 ```
 
    Adjust checkpoint_path and GPU device settings as needed.
 
-3. The [~/ResFF/resff](https://github.com/Ameki0/ResFF/blob/main/resff) directory provides the implementation of ResFF.
+2. The [~/ResFF/resff](https://github.com/Ameki0/ResFF/blob/main/resff) directory provides the implementation of ResFF.
 
 # Train ResFF
 
