@@ -1,0 +1,41 @@
+name: resff-openmm
+channels:
+  - nvidia
+  - conda-forge
+  - omnia
+  - defaults
+dependencies:
+  - python=3.11
+  - h5py
+  - matplotlib-base
+  - nnpops
+  - pip
+  - pytorch
+  - pytorch_geometric
+  - lightning
+  - pydantic
+  - torchmetrics
+  - tqdm
+  # Dev tools
+  - flake8
+  - pytest
+  - psutil
+  - gxx
+  - cuda-nvcc=12.0*
+  - cuda-version=12.0*
+  - cuda-libraries-dev=12.0*
+  - dgl=2.0.0
+  - pytorch=2.1.2=*cuda*
+  - openmm=8.1.2
+  - openff-toolkit=0.16.7
+  - openff-units=0.2.2
+  - openmm-torch=1.4
+  - openmmforcefields=0.14.1
+
+
+# After mamba env create -f environment.yml
+# for cuda > 12
+# mamba install -c conda-forge cuda-nvcc cuda-libraries-dev cuda-version gxx pytorch=*=*cuda*
+# for cuda < 12
+# mamba install -c nvidia "cuda-nvcc<12" "cuda-libraries-dev<12" "cuda-version<12" "gxx<12" pytorch=*=*cuda*
+# pip install mendeleev
