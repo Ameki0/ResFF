@@ -19,7 +19,7 @@ by [Xinyu Jiang](https://github.com/Ameki0)
 4. We have provided an interface for structure optimization using the ASE.
 
 
-# Installation
+## Installation
 
 We recommend setting up the environment using [mamba](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html).
 
@@ -52,7 +52,7 @@ pip install torch_scatter-2.0.9-cp39-cp39-linux_x86_64.whl
 pip install torch_geometric==2.5.3
 ```
 
-# Model weight and code
+## Model weight and code
 
 1. Pretrained ResFF weight is available in [~/ResFF/weight](https://github.com/Ameki0/ResFF/blob/main/weight). 
 
@@ -66,7 +66,7 @@ Load the model using:
 
 2. The [~/ResFF/resff](https://github.com/Ameki0/ResFF/blob/main/resff) directory provides the implementation of ResFF.
 
-# Data preprocessing
+## Data preprocessing
 
 1. Data links
 
@@ -89,7 +89,7 @@ The following datasets are supported:
 You can generate DGL graph datasets by running [~/ResFF/scripts/prepare_data-example.ipynb](https://github.com/Ameki0/ResFF/blob/main/scripts/prepare_data-example.ipynb). HDF5 format is recommended. Other formats such as SDF and XYZ are supported after conversion. An example of building a dataset from an SDF file is provided in [~/ResFF/scripts/prepare_dataset-benchmark.ipynb](https://github.com/Ameki0/ResFF/blob/main/scripts/prepare_dataset-benchmark.ipynb).
 Dataset preprocessing may take minutes to hours depending on size.
 
-# Training ResFF
+## Training ResFF
 
 Run the training script:
 
@@ -97,49 +97,29 @@ Run the training script:
 bash ~/ResFF/train.sh
 ```
 Training configuration
-  ---------------------------------------------------------------------------
-  Parameter            Default                  Description
-  -------------------- ------------------------ -----------------------------
-  epochs               100                      Number of training epochs
 
-  batch_size           1                        Number of molecules per batch
+| Parameter        | Default | Description |
+|:-----------------|:--------|:------------|
+| epochs           | 100     | Number of training epochs |
+| batch_size       | 1       | Number of molecules per batch |
+| n_max_confs      | 64      | Number of conformations per molecule |
+| layer_1          | SAGEConv | GNN architecture for MM module |
+| layer_2          | TorchMD_ET | GNN architecture for residual module |
+| units            | 512     | Hidden dimension size |
+| activation       | relu    | Activation function |
+| config_1         | `${units} relu 0.1 ${units} relu 0.1 ${units} relu 0.1` | MM module MLP architecture |
+| config_2         | torch   | Residual module architecture |
+| janossy_config   | `${units} relu 0.1 ${units} relu 0.1 ${units} relu 0.1 ${units} relu 0.1` | Janossy pooling architecture |
+| learning_rate    | 1e-4    | Learning rate |
+| input_prefix     | data    | Training dataset path |
+| datasets         | None    | Training dataset |
+| output_prefix    | output  | Output directory |
+| force_weight     | 1.0     | Force loss weight |
+| residual_weight  | 1.0     | Residual loss weight |
+| stage            | stage_1 | Training stage. `stage_1`: MM only (`residual_weight=0`), `stage_2`: Residual only (`residual_weight=1`) |
 
-  n_max_confs          64                       Number of conformations per
-                                                molecule
-
-  layer_1              SAGEConv                 GNN architecture for MM
-                                                module
-
-  layer_2              TorchMD_ET               GNN architecture for residual
-                                                module
-
-  units                512                      Hidden dimension size
-
-  activation           relu                     Activation function
-
-  config_1             `${units} relu 0.1 ${units} relu 0.1 ${units} relu 0.1`   MM module MLP architecture 
-
-  config_2             torch                    Residual module architecture
-
-  janossy_config       `${units} relu 0.1 ${units} relu 0.1 ${units} relu 0.1 ${units} relu 0.1`   Janossy pooling architecture
-
-  learning_rate        1e-4                     Learning rate
-
-  input_prefix         data                     Training dataset path
-
-  datasets             None                     Training dataset
-
-  output_prefix        output                   Output directory
-
-  force_weight         1.0                      Force loss weight
-
-  residual_weight      1.0                      Residual loss weight
-
-  stage                stage_1                  Training stage. `stage_1`: MM module only(`residual_weight = 0`), `stage_2`: Residual module only
-(`residual_weight = 1`)
-  ---------------------------------------------------------------------------
   
-# Evaluation
+## Evaluation
 
 Run evaluation with:
 
@@ -151,16 +131,16 @@ You can run a quick start exmaple in [~/ResFF/scripts/exmaple/](https://github.c
 Results will be saved in [~/ResFF/results/](https://github.com/Ameki0/ResFF/blob/main/results/), and visualization scripts are available
 in [~/ResFF/results/results.ipynb](https://github.com/Ameki0/ResFF/blob/main/results/results.ipynb).
 
-# Using ResFF in OpenMM
+## Using ResFF in OpenMM
 
 An example for parameterizing small molecules in a protein-ligand complex using ResFF is provided in [~/ResFF/scripts/openmm-interface](https://github.com/Ameki0/ResFF/blob/main/scripts/openmm-interface).
 
 
-# Using ResFF for Structure Optimization in ASE
+## Using ResFF for Structure Optimization in ASE
 
 An interface for ResFF using the ASE is available in [~/ResFF/scripts/ase-interface](https://github.com/Ameki0/ResFF/blob/main/scripts/ase-interface).
 
-# Training a model yourself and using those weights
+## Training a model yourself and using those weights
 
 To train your own model or fine-tune existing weights, please refer to the example in [~/ResFF/scripts/](https://github.com/Ameki0/ResFF/blob/main/scripts/):
 
@@ -175,6 +155,6 @@ restart_checkpoints = f"{output_prefix}/best_net.th"
 net.load_state_dict(restart_checkpoints)
 ```
 
-# License
+## License
 
 MIT
