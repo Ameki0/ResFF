@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-SDF_DIR="./data/raw_data/OpenFF-Industry-Benchmark/02-chunks" # Input molecule directory
+SDF_DIR="ResFF/data/raw_data/OpenFF-Industry-Benchmark/02-chunks" # Input molecule directory
 DEST_DIR="./opt-results" # Output directory
 RANGE_START=0 
 RANGE_END=250

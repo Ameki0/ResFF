@@ -13,7 +13,7 @@ from openmmforcefields.generators import EspalomaTemplateGenerator
 from residual.models.model import load_model
 from typing import Optional
 
-# =============================================================================
+# ============================================================================= 
 # CONFIGURATION
 # =============================================================================
 PROJECT_NAME = "tyk2"
