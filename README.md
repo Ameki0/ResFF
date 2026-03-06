@@ -127,7 +127,7 @@ Run evaluation with:
 bash ~/ResFF/val.sh
 ```
 
-You can run a quick start exmaple in [~/ResFF/scripts/exmaple/](https://github.com/Ameki0/ResFF/blob/main/scripts/example/) using preprocessed torsion and s66x8 datasets.
+You can run a quick start exmaple in [~/ResFF/scripts/exmample/](https://github.com/Ameki0/ResFF/blob/main/scripts/example/) using preprocessed torsion and s66x8 datasets.
 Results will be saved in [~/ResFF/results/](https://github.com/Ameki0/ResFF/blob/main/results/), and visualization scripts are available
 in [~/ResFF/results/results.ipynb](https://github.com/Ameki0/ResFF/blob/main/results/results.ipynb).
 
