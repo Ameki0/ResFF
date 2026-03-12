@@ -34,23 +34,23 @@ def _load_datasets(datasets, input_prefix):
     train / validation / test sets.
     """
     logging.debug("# LOAD UNIQUE MOLECULES")
-
-    all_ds = []
-
-    for dataset in datasets:
+    for i, dataset in enumerate(datasets):
         path = os.path.join(input_prefix, dataset)
-        ds = resff.data.dataset.GraphDataset.load(path).shuffle(RANDOM_SEED)
-        logging.debug(f"# {dataset}: {len(ds)} entries")
-        all_ds.append(ds)
+        _ds = resff.data.dataset.GraphDataset.load(path).shuffle(RANDOM_SEED)
+        logging.debug(f"# {dataset}: {len(_ds)} entries")
+        
+        # Merge datasets
+        if i == 0:
+            ds = _ds
+        else:
+            ds += _ds
 
-    total_size = len(all_ds)
-    logging.debug(f"# TOTAL: {total_size} entries")
-
+    total_size = len(ds)
     train_size = int(total_size * TRAIN_RATIO)
     val_size = int(total_size * VAL_RATIO)
-    train_ds = all_ds[:train_size]
-    val_ds = all_ds[train_size:train_size + val_size]
-    test_ds = all_ds[train_size + val_size:]
+    train_ds = ds[:train_size]
+    val_ds = ds[train_size:train_size + val_size]
+    test_ds = ds[train_size + val_size:]
 
     return train_ds, val_ds, test_ds
 
