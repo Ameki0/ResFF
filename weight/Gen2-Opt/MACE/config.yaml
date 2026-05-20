@@ -1,0 +1,99 @@
+name: MACE-S_gen2
+device: cuda
+model_dir: ./model
+log_dir: ./logs
+checkpoints_dir: ./checkpoints
+results_dir: ./results
+
+train_file: ./data/gen2_split1.xyz
+valid_file: ./data/gen2_split2.xyz
+test_file: ./data/gen2_split3.xyz
+
+error_table: PerAtomMAE
+r_max: 4.5
+radial_type: bessel
+num_radial_basis: 8
+num_cutoff_basis: 5
+pair_repulsion: False
+interaction: RealAgnosticResidualInteractionBlock
+interaction_first: RealAgnosticResidualInteractionBlock
+max_ell: 3
+correlation: 3
+num_interactions: 2
+MLP_irreps: 16x0e
+hidden_irreps: 96x0e
+num_channels: 96
+max_L: 0
+gate: silu
+scaling: rms_forces_scaling
+avg_num_neighbors: 1
+compute_avg_num_neighbors: True 
+compute_stress: False
+compute_forces: True
+num_workers: 32
+foundation_filter_elements: True
+multiheads_finetuning: True
+weight_pt_head: 1.0
+num_samples_pt: 1000
+force_mh_ft_lr: False
+subselect_pt: random
+keep_isolated_atoms: False
+energy_key: energy
+forces_key: forces
+virials_key: REF_virials
+stress_key: REF_stress
+dipole_key: REF_dipole
+charges_key: REF_charges
+loss: weighted
+forces_weight: 0 
+swa_forces_weight: 0 
+energy_weight: 40.0
+swa_energy_weight: 1000.0
+virials_weight: 1.0
+swa_virials_weight: 10.0
+stress_weight: 1.0
+swa_stress_weight: 10.0
+dipole_weight: 1.0
+swa_dipole_weight: 1.0
+huber_delta: 0.01
+optimizer: adam
+beta: 0.9
+batch_size: 64 
+valid_batch_size: 128
+lr: 0.01
+swa_lr: 0.00025
+weight_decay: 5e-10
+amsgrad: True
+scheduler: ReduceLROnPlateau
+lr_factor: 0.8
+scheduler_patience: 20
+lr_scheduler_gamma: 0.9993
+swa: True
+start_swa: 115
+ema: True
+ema_decay: 0.99
+max_num_epochs: 190
+patience: 50
+eval_interval: 1
+keep_checkpoints: False
+save_all_checkpoints: False
+restart_latest: True
+save_cpu: True
+clip_grad: 1.0
+enable_cueq: False
+
+
+E0s:
+  35: 0
+  6: 0
+  17: 0
+  9: 0
+  1: 0
+  53: 0
+  7: 0
+  8: 0
+  14: 0
+  15: 0
+  16: 0
+config_type_weights:
+  Default: 1.0
