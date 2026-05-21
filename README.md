@@ -74,13 +74,19 @@ The following datasets are supported:
 
 -   SPICE-1.1.4: https://zenodo.org/records/8222043
 -   Generation2-Optimzization: https://github.com/openforcefield/qca-dataset-submission/tree/master/submissions/2020-03-20-OpenFF-Gen-2-Optimization-Set-1-Roche
+                               
                                https://github.com/openforcefield/qca-dataset-submission/tree/master/submissions/2020-03-20-OpenFF-Gen-2-Optimization-Set-2-Coverage
+                               
                                https://github.com/openforcefield/qca-dataset-submission/tree/master/submissions/2020-03-20-OpenFF-Gen-2-Optimization-Set-3-Pfizer-Discrepancy
+                               
                                https://github.com/openforcefield/qca-dataset-submission/tree/master/submissions/2020-03-20-OpenFF-Gen-2-Optimization-Set-4-eMolecules-Discrepancy
+                               
                                https://github.com/openforcefield/qca-dataset-submission/tree/master/submissions/2020-03-20-OpenFF-Gen-2-Optimization-Set-5-Bayer
+                               
                                You can also download the Generation2-Optimzization dataset from https://zenodo.org/records/20305751.
 -   DES370K: https://zenodo.org/records/8222043
-              You can also download the DES370K dataset from https://zenodo.org/records/20305751.
+             
+             You can also download the DES370K dataset from https://zenodo.org/records/20305751.
 -   TorsionNet-500: https://pubs.acs.org/doi/10.1021/acs.jcim.1c01346
 -   TorsionScan: https://pubs.acs.org/doi/10.1021/acs.jcim.6b00614
 -   s66x8: https://pubs.acs.org/doi/10.1021/ct2002946
