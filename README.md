@@ -1,6 +1,6 @@
 # Deep Residual Learning for Molecular Force Fields
 
-This repo contains a PyTorch implementation for neural network force field ResFF.
+This repo contains a PyTorch implementation for neural network force field [ResFF](https://www.nature.com/articles/s41467-026-74983-0).
 
 If you have any question, feel free to open an issue or contact us at 📧 jiangxinyu@simm.ac.cn
 
@@ -156,6 +156,10 @@ The training will resume from:
 restart_checkpoints = f"{output_prefix}/best_net.th"
 net.load_state_dict(restart_checkpoints)
 ```
+
+## Citation
+
+Jiang, X., Chen, M., Zeng, C. et al. Deep residual learning for molecular force fields. Nat Commun 17, 8160 (2026). https://doi.org/10.1038/s41467-026-74983-0
 
 ## License
 
